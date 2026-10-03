@@ -1,0 +1,612 @@
+{
+  "id": "3e9179e1-8829-469f-b239-a29c4a97147e",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.appraisals": {
+      "name": "appraisals",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "item_name": {
+          "name": "item_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "input": {
+          "name": "input",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "result": {
+          "name": "result",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "logic_version": {
+          "name": "logic_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'v1'"
+        },
+        "recommended_price": {
+          "name": "recommended_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quick_price": {
+          "name": "quick_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "market_price": {
+          "name": "market_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "premium_price": {
+          "name": "premium_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "range_low": {
+          "name": "range_low",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "range_high": {
+          "name": "range_high",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "factors": {
+          "name": "factors",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "todos": {
+          "name": "todos",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "listing_title": {
+          "name": "listing_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "listing_description": {
+          "name": "listing_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "copy_source": {
+          "name": "copy_source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sold_price": {
+          "name": "sold_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "days_to_sell": {
+          "name": "days_to_sell",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "discount_count": {
+          "name": "discount_count",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sold_reported_at": {
+          "name": "sold_reported_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "idx_appraisals_user_created": {
+          "name": "idx_appraisals_user_created",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_appraisals_user_category_created": {
+          "name": "idx_appraisals_user_category_created",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "category",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_appraisals_category": {
+          "name": "idx_appraisals_category",
+          "columns": [
+            {
+              "expression": "category",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "appraisals_user_id_profiles_id_fk": {
+          "name": "appraisals_user_id_profiles_id_fk",
+          "tableFrom": "appraisals",
+          "tableTo": "profiles",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "appraisals_item_name_check": {
+          "name": "appraisals_item_name_check",
+          "value": "char_length(\"appraisals\".\"item_name\") between 1 and 120"
+        },
+        "appraisals_category_check": {
+          "name": "appraisals_category_check",
+          "value": "\"appraisals\".\"category\" in ('electronics', 'fashion', 'luxury', 'hobby', 'furniture', 'sports', 'baby', 'books')"
+        },
+        "appraisals_score_check": {
+          "name": "appraisals_score_check",
+          "value": "\"appraisals\".\"score\" between 0 and 100"
+        },
+        "appraisals_confidence_check": {
+          "name": "appraisals_confidence_check",
+          "value": "\"appraisals\".\"confidence\" between 0 and 100"
+        },
+        "appraisals_recommended_price_check": {
+          "name": "appraisals_recommended_price_check",
+          "value": "\"appraisals\".\"recommended_price\" >= 0"
+        },
+        "appraisals_quick_price_check": {
+          "name": "appraisals_quick_price_check",
+          "value": "\"appraisals\".\"quick_price\" >= 0"
+        },
+        "appraisals_market_price_check": {
+          "name": "appraisals_market_price_check",
+          "value": "\"appraisals\".\"market_price\" >= 0"
+        },
+        "appraisals_premium_price_check": {
+          "name": "appraisals_premium_price_check",
+          "value": "\"appraisals\".\"premium_price\" >= 0"
+        },
+        "appraisals_range_low_check": {
+          "name": "appraisals_range_low_check",
+          "value": "\"appraisals\".\"range_low\" >= 0"
+        },
+        "appraisals_range_high_check": {
+          "name": "appraisals_range_high_check",
+          "value": "\"appraisals\".\"range_high\" >= 0"
+        },
+        "appraisals_copy_source_check": {
+          "name": "appraisals_copy_source_check",
+          "value": "\"appraisals\".\"copy_source\" is null or \"appraisals\".\"copy_source\" in ('rule', 'llm')"
+        },
+        "appraisals_sold_price_check": {
+          "name": "appraisals_sold_price_check",
+          "value": "\"appraisals\".\"sold_price\" is null or \"appraisals\".\"sold_price\" >= 0"
+        },
+        "appraisals_days_to_sell_check": {
+          "name": "appraisals_days_to_sell_check",
+          "value": "\"appraisals\".\"days_to_sell\" is null or \"appraisals\".\"days_to_sell\" between 0 and 365"
+        },
+        "appraisals_discount_count_check": {
+          "name": "appraisals_discount_count_check",
+          "value": "\"appraisals\".\"discount_count\" is null or \"appraisals\".\"discount_count\" between 0 and 50"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "plan": {
+          "name": "plan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'free'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "profiles_id_users_id_fk": {
+          "name": "profiles_id_users_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "profiles_plan_check": {
+          "name": "profiles_plan_check",
+          "value": "\"profiles\".\"plan\" in ('free', 'pro', 'business')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.usage_events": {
+      "name": "usage_events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "usage_events_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "occurred_at": {
+          "name": "occurred_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "anonymous_id": {
+          "name": "anonymous_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "session_id": {
+          "name": "session_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appraisal_id": {
+          "name": "appraisal_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "properties": {
+          "name": "properties",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {
+        "idx_usage_events_type_time": {
+          "name": "idx_usage_events_type_time",
+          "columns": [
+            {
+              "expression": "event_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "occurred_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_usage_events_user": {
+          "name": "idx_usage_events_user",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "occurred_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_usage_events_anon": {
+          "name": "idx_usage_events_anon",
+          "columns": [
+            {
+              "expression": "anonymous_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "occurred_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "usage_events_user_id_users_id_fk": {
+          "name": "usage_events_user_id_users_id_fk",
+          "tableFrom": "usage_events",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "usage_events_appraisal_id_appraisals_id_fk": {
+          "name": "usage_events_appraisal_id_appraisals_id_fk",
+          "tableFrom": "usage_events",
+          "tableTo": "appraisals",
+          "columnsFrom": [
+            "appraisal_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "usage_events_event_type_check": {
+          "name": "usage_events_event_type_check",
+          "value": "\"usage_events\".\"event_type\" in ('appraisal_form_started', 'appraisal_completed', 'appraisal_saved', 'copy_generated', 'copy_copied', 'sale_reported', 'signup_completed')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
